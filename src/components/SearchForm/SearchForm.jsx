@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import  PropTypes  from 'prop-types';
 
 import { FiSearch } from 'react-icons/fi';
 import { FormBtn, InputSearch, SearchFormStyled } from './SearchForm.styled';
+import { useDispatch } from 'react-redux';
+import { nanoid } from 'nanoid';
+import { addTodo } from 'redux/todosSlice';
 
-export const SearchForm = ({onSubmit}) => {
+export const SearchForm = () => {
   const [query, setQuery] = useState('');
+  const dispatch = useDispatch();
   const handleInput = e => {
     setQuery(e.currentTarget.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    onSubmit(query);
+    const todo = {
+      id: nanoid(),
+      text: query
+    }
+    dispatch(addTodo(todo));
     setQuery("");
   };
   
@@ -36,8 +42,3 @@ export const SearchForm = ({onSubmit}) => {
       </SearchFormStyled>
     );
   }
-
-
-SearchForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-}

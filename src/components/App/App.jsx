@@ -1,69 +1,36 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
-
 import {
   Container,
-  Grid,
-  GridItem,
   Header,
   SearchForm,
   Section,
   Text,
-  Todo,
 } from 'components';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFilter, selectTodos } from 'redux/selectors';
+import { TodoList } from 'components/TodoList/TodoList';
+import { setFilter } from 'redux/filterSlice';
+
 
 export const App = () => {
-
-  const [todos, setTodos] = useState(() => JSON.parse(localStorage.getItem('todos')) ?? []);
-
-
-  useEffect(() => {
-     localStorage.setItem('todos', JSON.stringify(todos));
-  },[todos])
-
-
-  const addTodo = text => {
-    const todo = {
-      id: nanoid(),
-      text,
-    };
-
-    setTodos(prevState => [...prevState, todo]);
-  };
-
-  const handleSubmit = data => {
-    addTodo(data);
-  };
-
-  const deletTodo = id => {
-    setTodos(prevState=>prevState.filter(todo=>todo.id !== id))
-  }
-
+  const dispatch = useDispatch()
+  const todos = useSelector(selectTodos)
+  const filter = useSelector(selectFilter)
 
     return (
       <>
         <Header />
         <Section>
           <Container>
-            <SearchForm onSubmit={handleSubmit} />
+            <label>
+              <input type="input" value={filter} onChange={(e) => dispatch(setFilter(e.target.value))} />
+            </label>
+            <SearchForm />
 
             {todos.length === 0 && (
               <Text textAlign="center">There are no any todos ... </Text>
             )}
-
-            <Grid>
-              {todos.length > 0 &&
-                todos.map((todo, index) => (
-                  <GridItem key={todo.id}>
-                    <Todo
-                      id={todo.id}
-                      text={todo.text}
-                      counter={index + 1}
-                      onClick={deletTodo}
-                    />
-                  </GridItem>
-                ))}
-            </Grid>
+          <TodoList/>
+            
           </Container>
         </Section>
       </>
