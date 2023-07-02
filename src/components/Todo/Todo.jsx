@@ -1,12 +1,12 @@
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { Text } from 'components';
 import { DeleteButton, TodoWrapper } from './Todo.styled';
-import  PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteTodo } from 'redux/todosSlice';
+import { deleteTodo } from 'redux/coperations';
 
 export const Todo = ({ text, counter, id }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -23,9 +23,8 @@ export const Todo = ({ text, counter, id }) => {
   );
 };
 
-
 Todo.propTypes = {
   text: PropTypes.string.isRequired,
   counter: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
-}
+};

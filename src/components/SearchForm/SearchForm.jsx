@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { FormBtn, InputSearch, SearchFormStyled } from './SearchForm.styled';
 import { useDispatch } from 'react-redux';
-import { nanoid } from 'nanoid';
-import { addTodo } from 'redux/todosSlice';
+
+import { addTodo } from 'redux/coperations';
 
 export const SearchForm = () => {
   const [query, setQuery] = useState('');
@@ -16,29 +16,25 @@ export const SearchForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const todo = {
-      id: nanoid(),
-      text: query
-    }
+      text: query,
+    };
     dispatch(addTodo(todo));
-    setQuery("");
+    setQuery('');
   };
-  
-  
-  
 
-    return (
-      <SearchFormStyled onSubmit={handleSubmit}>
-        <FormBtn type="submit">
-          <FiSearch size="16px" />
-        </FormBtn>
-        <InputSearch
-          onChange={handleInput}
-          placeholder="What do you want to write?"
-          name="search"
-          required
-          value={query}
-          autoFocus
-        />
-      </SearchFormStyled>
-    );
-  }
+  return (
+    <SearchFormStyled onSubmit={handleSubmit}>
+      <FormBtn type="submit">
+        <FiSearch size="16px" />
+      </FormBtn>
+      <InputSearch
+        onChange={handleInput}
+        placeholder="What do you want to write?"
+        name="search"
+        required
+        value={query}
+        autoFocus
+      />
+    </SearchFormStyled>
+  );
+};
